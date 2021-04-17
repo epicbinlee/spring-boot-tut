@@ -22,10 +22,12 @@
         <maven.compiler.target>11</maven.compiler.target>
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
         <lombok.version>1.18.12</lombok.version>
+        <!--插件版本属性-->
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.1.2</maven.jar.plugin.version>
         <maven.assembly.plugin.version>3.2.0</maven.assembly.plugin.version>
         <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
+        <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -55,27 +57,38 @@
     </dependencies>
 
     <build>
+        <!--父工程统一管理插件版本，子工程不需要写版本号-->
         <pluginManagement>
             <plugins>
+                <!--编译插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                 </plugin>
+                <!--打包插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven.jar.plugin.version}</version>
                 </plugin>
+                <!--源码插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven.source.plugin.version}</version>
                 </plugin>
+                <!--整包打包插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven.assembly.plugin.version}</version>
+                </plugin>
+                <!--依赖拷贝插件-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -90,45 +103,6 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-            <!--&lt;!&ndash;分离打包&ndash;&gt;-->
-            <!--<plugin>-->
-            <!--    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--    <artifactId>maven-jar-plugin</artifactId>-->
-            <!--    <configuration>-->
-            <!--        <archive>-->
-            <!--            <manifest>-->
-            <!--                <addClasspath>true</addClasspath>-->
-            <!--                <classpathPrefix>lib/</classpathPrefix>-->
-            <!--                &lt;!&ndash;<mainClass>com.sbt.jcommander.JcommanderMainApplication</mainClass>&ndash;&gt;-->
-            <!--                <useUniqueVersions>false</useUniqueVersions>-->
-            <!--            </manifest>-->
-            <!--        </archive>-->
-            <!--    </configuration>-->
-            <!--</plugin>-->
-            <!--&lt;!&ndash;打整包&ndash;&gt;-->
-            <!--<plugin>-->
-            <!--    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--    <artifactId>maven-assembly-plugin</artifactId>-->
-            <!--    <configuration>-->
-            <!--        <descriptorRefs>-->
-            <!--            <descriptorRef>jar-with-dependencies</descriptorRef>-->
-            <!--        </descriptorRefs>-->
-            <!--        <archive>-->
-            <!--            <manifest>-->
-            <!--                &lt;!&ndash;<mainClass>com.sbt.jcommander.JcommanderMainApplication</mainClass>&ndash;&gt;-->
-            <!--            </manifest>-->
-            <!--        </archive>-->
-            <!--    </configuration>-->
-            <!--    <executions>-->
-            <!--        <execution>-->
-            <!--            <id>make-assembly</id>-->
-            <!--            <phase>package</phase>-->
-            <!--            <goals>-->
-            <!--                <goal>single</goal>-->
-            <!--            </goals>-->
-            <!--        </execution>-->
-            <!--    </executions>-->
-            <!--</plugin>-->
             <!-- 拷贝依赖的jar包到lib目录 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -148,7 +122,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!--源码包-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -162,7 +135,7 @@
                     </execution>
                 </executions>
             </plugin>
-
+        <!--插件结束-->
         </plugins>
     </build>
 
