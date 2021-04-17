@@ -17,11 +17,11 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>-->
-        <!--    <groupId>com.madden-abbott</groupId>-->
-        <!--    <artifactId>jcommander-spring-boot-starter</artifactId>-->
-        <!--    <version>0.1.1</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.madden-abbott</groupId>
+            <artifactId>jcommander-spring-boot-starter</artifactId>
+            <version>0.1.1</version>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -31,6 +31,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
     </dependencies>
 
@@ -43,33 +48,13 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.sbt.jcommander.JcommanderMainApplication</mainClass>
+                            <mainClass>com.sbt.jcommander.MultiCommandApplication</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
-
-            <!-- 拷贝依赖的jar包到lib目录 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/lib
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <!--打整包-->
@@ -82,7 +67,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.sbt.jcommander.JcommanderMainApplication</mainClass>
+                            <mainClass>com.sbt.jcommander.MultiCommandApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
