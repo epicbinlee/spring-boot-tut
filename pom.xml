@@ -12,6 +12,7 @@
 
     <modules>
         <module>sbt-jcommander</module>
+        <module>sbt-log</module>
     </modules>
 
     <properties>
