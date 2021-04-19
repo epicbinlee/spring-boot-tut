@@ -8,10 +8,10 @@
     <!--日志位置，需要用户根据项目配置-->
     <property name="LOG_DIR" value="log"/>
     <!--控制台日志格式变量:stdout-->
-    <property name="STDOUT_PATTERN" value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%-5level) | %-10.10thread{10} | %green(%-40.40logger{40}) |- %highlight(%msg) %n"/>
+    <property name="STDOUT_PATTERN" value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%-5level) | %-10.10thread{10} | %green(%-40.40logger{40} %6.6line{6}) |- %highlight(%msg) %n"/>
     <!--文件日志格式变量:stdout-->
     <!--<property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %p [%t] %logger{50} - %msg%n"/>-->
-    <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} | %-5level | %-10.10thread{10} | %-40.40logger{40} |- %msg%n"/>
+    <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} | %-5level | %-10.10thread{10} | %-40.40logger{40} %6.6line{6} |- %msg%n"/>
 
     <!-- 日志最大的历史30天 -->
     <property name="maxHistory" value="30"/>
