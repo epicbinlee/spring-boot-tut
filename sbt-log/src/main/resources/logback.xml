@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <!--日志环境名称-->
+    <contextName>logback</contextName>
+    <!-- 将状态信息监听器设置为无操作监听器,可用于查看日志路径-->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+    <!--日志位置，需要用户根据项目配置-->
+    <property name="LOG_DIR" value="log"/>
+    <!--控制台日志格式变量:stdout-->
+    <property name="STDOUT_PATTERN" value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%-5level) | %-10.10thread{10} | %green(%-40.40logger{40}) |- %highlight(%msg) %n"/>
+    <!--文件日志格式变量:stdout-->
+    <!--<property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %p [%t] %logger{50} - %msg%n"/>-->
+    <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} | %-5level | %-10.10thread{10} | %-40.40logger{40} |- %msg%n"/>
+
+    <!-- 日志最大的历史30天 -->
+    <property name="maxHistory" value="30"/>
+    <property name="maxFileSize" value="100MB"/>
+
+    <!--控制台输出配置-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${STDOUT_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--INFO日志写文件追加器-->
+    <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_DIR}/info.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--错误日志写文件追加器-->
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_DIR}/error.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--配置生效-->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file_info"/>
+        <appender-ref ref="file_error"/>
+    </root>
+
+    <!--排除日志-->
+    <logger name="ch.qos.logback.core" level="OFF"/>
+    <logger name="org.apache.hadoop.yarn.util.RackResolver" level="OFF"/>
+    <logger name="org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter" level="OFF"/>
+    <logger name="org.apache.zookeeper.ClientCnxn" level="OFF"/>
+    <logger name="org.spark_project.jetty.servlet.ServletHandler" level="OFF"/>
+    <logger name="org.apache.spark.ContextCleaner" level="OFF"/>
+    <!--指定特殊的追加器-->
+    <logger name="com.sbt" level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file_info"/>
+        <appender-ref ref="file_error"/>
+    </logger>
+</Configuration>
+
