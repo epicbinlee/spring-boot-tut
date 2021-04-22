@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--log4j内部日志级别-->
+<Configuration status="info" monitorInterval="10">
+    <Properties>
+        <property name="log_home">/mnt/disk1/log/tps/eureka</property>
+        <property name="info_file_size">100 MB</property>
+        <property name="error_file_size">100 MB</property>
+        <property name="rolling_max">50</property>
+        <!-- 控制台显示的日志最低级别 -->
+        <property name="console_log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level %30c{1.}(%3L)} | %m%n
+        </property>
+        <property name="console_print_level">debug</property>
+        <property name="log_pattern">%d{yyyy-MM-dd HH:mm:ss} [%t] %p [%c{1.}::%M(%L)] - %msg%n</property>
+        <!--文件中记录的日志最低级别-->
+        <property name="output_log_level">info</property>
+    </Properties>
+    <appenders>
+        <!--控制台-->
+        <Console name="stdout" target="SYSTEM_OUT">
+            <!-- 设置控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) -->
+            <ThresholdFilter level="${console_print_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 设置输出格式,不设置默认为:%m%n -->
+            <PatternLayout pattern="${console_log_pattern}" charset="utf-8"/>
+        </Console>
+        <!--INFO 文件-->
+        <RollingRandomAccessFile name="${output_log_level}" filename="${log_home}/normal.log"
+                                 filepattern="${log_home}/normal.%d{yyyy-MM-dd}.%i.log.gz">
+            <thresholdfilter level="${output_log_level}" onmatch="accept" onmismatch="deny"/>
+            <patternlayout pattern="${log_pattern}" charset="utf-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="${info_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${rolling_max}">
+                <Delete basepath="${log_home}" maxdepth="2">
+                    <IfFileName glob="normal.*.log.*"/>
+                    <IfLastModified age="20d"/>
+                    <IfAny>
+                        <IfAccumulatedFileSize exceeds="2 GB"/>
+                    </IfAny>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!--ERROR 文件-->
+        <RollingRandomAccessFile name="error" filename="${log_home}/error.log"
+                                 filepattern="${log_home}/error.%d{yyyy-MM-dd}.%i.log.gz">
+            <thresholdfilter level="error" onmatch="accept" onmismatch="deny"/>
+            <patternlayout pattern="${log_pattern}" charset="utf-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="${error_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${rolling_max}">
+                <Delete basepath="${log_home}" maxdepth="2">
+                    <IfFileName glob="*error.*.log.*"/>
+                    <IfLastModified age="20d"/>
+                    <IfAny>
+                        <IfAccumulatedFileSize exceeds="1 GB"/>
+                    </IfAny>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </appenders>
+
+    <loggers>
+        <asynclogger name="org.springframework" level="warn"/>
+        <asynclogger name="com.alibaba.druid" level="off"/>
+        <asynclogger name="druid.sql.Statement" level="info" additivity="false"/>
+        <asynclogger name="com.hikvision.bigdata.ecp" level="debug"/>
+        <asynclogger name="com.hikvision.tps" level="debug"/>
+        <asynclogger name="com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver" level="off"/>
+        <asyncroot level="info" includelocation="true">
+            <appenderref ref="stdout"/>
+            <appenderref ref="info"/>
+            <appenderref ref="debug"/>
+            <!--<appenderref ref="warn"/>-->
+            <appenderref ref="error"/>
+        </asyncroot>
+    </loggers>
+</Configuration>
