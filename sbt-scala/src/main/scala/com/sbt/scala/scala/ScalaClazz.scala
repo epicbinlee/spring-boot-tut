@@ -9,9 +9,6 @@ import java.util
  *
  * @author leebin
  */
-class ScalaClazz {
-}
-
 object ScalaClazz {
   private val path = "xx";
 
