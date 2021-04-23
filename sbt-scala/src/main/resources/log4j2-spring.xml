@@ -2,7 +2,7 @@
 <!--log4j内部日志级别-->
 <Configuration status="info" monitorInterval="10">
     <Properties>
-        <property name="log_home">/mnt/disk1/log/tps/eureka</property>
+        <property name="log_home">log</property>
         <property name="info_file_size">100 MB</property>
         <property name="error_file_size">100 MB</property>
         <property name="rolling_max">50</property>
@@ -73,7 +73,7 @@
         <asyncroot level="info" includelocation="true">
             <appenderref ref="stdout"/>
             <appenderref ref="info"/>
-            <appenderref ref="debug"/>
+            <!--<appenderref ref="debug"/>-->
             <!--<appenderref ref="warn"/>-->
             <appenderref ref="error"/>
         </asyncroot>

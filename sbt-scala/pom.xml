@@ -17,7 +17,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -33,6 +32,11 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
             <version>2.2.5.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -47,7 +51,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <!--<mainClass>com.hikvision.digital.process.batch.lightgbm4j.Lightgbm4j</mainClass>-->
+                            <!--<mainClass></mainClass>-->
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -83,7 +87,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <!--<mainClass>com.hikvision.digital.process.batch.lightgbm4j.Lightgbm4j</mainClass>-->
+                            <mainClass>com.sbt.scala.ScalaApplication</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>
@@ -111,10 +115,8 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <generatedSourcesDirectory>
-                                ${project.build.directory}/generated-test-sources/test-annotations
-                            </generatedSourcesDirectory>
-                            <!--<proc>only</proc>-->
+                            <generatedSourcesDirectory>${project.build.directory}/generated-test-sources/test-annotations</generatedSourcesDirectory>
+                            <proc>only</proc>
                         </configuration>
                     </execution>
                 </executions>

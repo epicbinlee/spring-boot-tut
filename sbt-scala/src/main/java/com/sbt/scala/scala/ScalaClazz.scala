@@ -6,7 +6,7 @@ package com.sbt.scala.scala
  * @author leebin
  */
 class ScalaClazz {
-
+  private val s = "xx";
 }
 
 object ScalaClazz {
